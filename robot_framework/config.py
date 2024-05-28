@@ -17,6 +17,7 @@ DB_CREDS = "Udrejse Database"
 FAELLES_SQL = "FællesSQL Udenlandske Borgere"
 NOVA_API = "Nova API"
 GRAPH_API = "Graph API"
+INDKOMST_CREDS = "KMD Udrejse"
 
 # Other configs
 INCOME_DAYS = 545
