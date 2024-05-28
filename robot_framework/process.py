@@ -72,7 +72,7 @@ def find_cases(requested_count: int, orchestrator_connection: OrchestratorConnec
     found_count = 0
 
     for candidate in candidates:
-        if handled_count > config.MAX_HANDLED_CASES or found_count > requested_count:
+        if handled_count >= config.MAX_HANDLED_CASES or found_count >= requested_count:
             break
 
         has_income = indkomst.search_indkomst(candidate.cpr)
