@@ -35,7 +35,7 @@ def process(orchestrator_connection: OrchestratorConnection) -> None:
         email_text = mail.get_text()
         sender_email = re.findall("BrugerE-mail: (.+?)AZ-ident", email_text)[0]
         sender_ident = re.findall("AZ-ident: (.+?)Antal", email_text)[0]
-        requested_count = int(re.findall("Antal ønskede sager(\d+)", email_text)[0])
+        requested_count = int(re.findall(r"Antal ønskede sager(\d+)", email_text)[0])
 
         approved_senders = json.loads(orchestrator_connection.process_arguments)["approved_senders"]
 

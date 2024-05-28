@@ -21,6 +21,7 @@ def open_indkomst(username: str, password: str):
         username: Username for KMD Indkomst.
         password: Password for KMD Indkomst.
     """
+    # pylint: disable-next=consider-using-with
     subprocess.Popen(r"C:\Program Files (x86)\KMD\KMD.AY.Indkomstgrundlag\KMD.AY.Indkomstgrundlag.UI.Application.exe", cwd=r"C:\Program Files (x86)\KMD\KMD.AY.Indkomstgrundlag")
 
     logon = auto.WindowControl(Name="KMD Logon - Brugernavn og kodeord", searchDepth=1)

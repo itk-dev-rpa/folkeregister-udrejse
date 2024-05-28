@@ -14,7 +14,7 @@ def migrate(orchestrator_connection):
 
     Args:
         orchestrator_connection: The connection to Orchestrator
-    """    
+    """
     db_cred = orchestrator_connection.get_credential("Udrejse Database")
     old_conn = pyodbc.connect(f'Server=srvweb13;Database=rpa;UID={db_cred.username};PWD={db_cred.password};Driver={{ODBC Driver 17 for SQL Server}}')
 
