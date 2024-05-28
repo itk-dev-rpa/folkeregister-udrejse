@@ -13,7 +13,7 @@ The robot expects a list of approved case workers as input. This is given as a J
 ```json
 {
     "approved_senders": [
-        "az68933"
+        "azXXXXX"
     ]
 }
 ```
