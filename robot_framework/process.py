@@ -41,7 +41,7 @@ def process(orchestrator_connection: OrchestratorConnection) -> None:
 
         if sender_ident not in approved_senders:
             orchestrator_connection.log_info(f"Request denied for: {sender_email} - {sender_ident}")
-            smtp_util.send_email(sender_email, "itk-rpa@mkb.aarhus.dk", "Anmodning afvist", "Din anmodning til Udrejsekontrol er blevet afvist, da du ikke er på listen af godkendt medarbejdere.", smtp_server=config.SMTP_SERVER, smtp_port=config.SMTP_PORT)
+            smtp_util.send_email(sender_email, "itk-rpa@mkb.aarhus.dk", "Anmodning afvist", "Din anmodning til Udrejsekontrol er blevet afvist, da du ikke er på listen af godkendte medarbejdere.", smtp_server=config.SMTP_SERVER, smtp_port=config.SMTP_PORT)
             graph_mail.delete_email(mail, graph_access)
         else:
             found_count, handled_count = find_cases(requested_count, orchestrator_connection)
