@@ -2,6 +2,9 @@
 
 from OpenOrchestrator.orchestrator_connection.connection import OrchestratorConnection
 
+from robot_framework.sub_process import indkomst
+from robot_framework import config
+
 
 def reset(orchestrator_connection: OrchestratorConnection) -> None:
     """Clean up, close/kill all programs and start them again. """
@@ -26,7 +29,12 @@ def kill_all(orchestrator_connection: OrchestratorConnection) -> None:
     """Forcefully close all applications used by the robot."""
     orchestrator_connection.log_trace("Killing all applications.")
 
+    indkomst.kill_indkomst()
+
 
 def open_all(orchestrator_connection: OrchestratorConnection) -> None:
     """Open all programs used by the robot."""
     orchestrator_connection.log_trace("Opening all applications.")
+
+    cred = orchestrator_connection.get_credential(config.INDKOMST_CREDS)
+    indkomst.open_indkomst(cred.username, cred.password)
