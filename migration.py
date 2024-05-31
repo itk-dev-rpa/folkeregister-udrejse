@@ -22,8 +22,8 @@ def migrate(orchestrator_connection):
 
     old_records = old_conn.execute(
         """SELECT cpr, first_name, created_date FROM rpa.dbo.udrejse_kontrol
-        WHERE created_date is not NULL
-        AND first_name is not NULL"""
+        WHERE created_date IS NOT NULL
+        AND first_name IS NOT NULL"""
     ).fetchall()
 
     cursor = new_conn.cursor()
