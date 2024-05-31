@@ -46,7 +46,7 @@ def process(orchestrator_connection: OrchestratorConnection) -> None:
         else:
             found_count, handled_count = find_cases(requested_count, orchestrator_connection)
             orchestrator_connection.log_info(f"{found_count} new cases created in Nova. {handled_count} people checked.")
-            smtp_util.send_email(sender_email, "itk-rpa@mkb.aarhus.dk", "Udrejse sager oprettet", f"Din anmodning til Udrejsekontrol er blevet behandlet.\nDer er blevet gennemsøgt {handled_count} personer og oprettet {found_count} nye sager i KMD Nova.", smtp_server=config.SMTP_SERVER, smtp_port=config.SMTP_PORT)
+            smtp_util.send_email(sender_email, "itk-rpa@mkb.aarhus.dk", "Udrejsesager oprettet", f"Din anmodning til Udrejsekontrol er blevet behandlet.\nDer er blevet gennemsøgt {handled_count} personer og oprettet {found_count} nye sager i KMD Nova.", smtp_server=config.SMTP_SERVER, smtp_port=config.SMTP_PORT)
             graph_mail.delete_email(mail, graph_access)
             return
 
