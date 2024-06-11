@@ -39,8 +39,7 @@ def get_candidate_list(orchestrator_connection: OrchestratorConnection, udrejse_
     candidates = faelles_sql_conn.execute(
         """SELECT CPR, Fornavn, Adresseringsadresse FROM Dataintegration.kmdIndkomst.[Udenlandske borgere i AAK]
         WHERE SenestIndrejseDatoDK < dateadd(month, -18, getdate())
-        AND Vejkode != 9901 AND Vejkode != 9902
-        AND CivilstandKode = 'U'
+        AND Vejkode NOT IN (9901, 9902, 9903, 9904, 9906, 9910, 9920)
         """
     )
     candidates = [list(c) for c in candidates]
