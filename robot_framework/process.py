@@ -86,6 +86,8 @@ def find_cases(requested_count: int, orchestrator_connection: OrchestratorConnec
 
         handled_count += 1
 
+        print(handled_count, found_count)
+
     return found_count, handled_count
 
 

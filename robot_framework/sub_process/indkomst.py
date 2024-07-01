@@ -52,6 +52,11 @@ def search_indkomst(cpr: str) -> bool:
     person_edit = indkomst_window.PaneControl(AutomationId="sagsPersonCPRMaskedTextBox").EditControl(AutomationId="maskedTextBoxEx")
     person_edit.SendKeys(cpr)
 
+    # Dismiss popup
+    popup = indkomst_window.WindowControl(SearchDepth=1).WindowControl(SearchDepth=1)
+    if popup.Exists(maxSearchSeconds=1, searchIntervalSeconds=0.1):
+        popup.ButtonControl(Name='Nej').GetInvokePattern().Invoke()
+
     # Search and open eIndkomst
     indkomst_window.ButtonControl(AutomationId="btnOK").GetInvokePattern().Invoke()
     indkomst_window.SendKeys("{ctrl}e")
