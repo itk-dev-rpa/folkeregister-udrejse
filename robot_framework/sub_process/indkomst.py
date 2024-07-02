@@ -107,8 +107,3 @@ def _check_income_in_clipboard() -> bool:
     income_text = income_text.replace(".", "")
     income_text = income_text.replace(",", ".")
     return float(income_text) > config.MIN_INCOME
-
-
-if __name__ == '__main__':
-    kill_indkomst()
-    open_indkomst("hej", "hej")
