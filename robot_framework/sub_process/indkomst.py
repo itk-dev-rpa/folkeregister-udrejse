@@ -29,7 +29,7 @@ def open_indkomst(username: str, password: str):
     logon.Exists()
 
     # Wait for KMD Logon to load properly
-    for i in range(10):
+    for _ in range(10):
         selection = logon.ComboBoxControl(AutomationId="UserPwComboBoxCics").GetSelectionPattern().GetSelection()
         if selection:
             break
