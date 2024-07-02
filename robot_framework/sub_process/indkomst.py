@@ -2,6 +2,7 @@
 
 import subprocess
 from datetime import datetime, timedelta
+import time
 
 import uiautomation as auto
 
@@ -27,6 +28,16 @@ def open_indkomst(username: str, password: str):
     logon = auto.WindowControl(Name="KMD Logon - Brugernavn og kodeord", searchDepth=1)
     logon.Exists()
 
+    # Wait for KMD Logon to load properly
+    for i in range(10):
+        selection = logon.ComboBoxControl(AutomationId="UserPwComboBoxCics").GetSelectionPattern().GetSelection()
+        if selection:
+            break
+        time.sleep(0.5)
+    else:
+        raise TimeoutError("KMD Logon didn't respond within 5 seconds.")
+
+    # Login
     logon.EditControl(AutomationId="UserPwTextBoxUserName").GetValuePattern().SetValue(username)
     logon.EditControl(AutomationId="UserPwPasswordBoxPassword").GetValuePattern().SetValue(password)
     logon.ButtonControl(AutomationId="UserPwLogonButton").Click(simulateMove=False)
@@ -96,3 +107,8 @@ def _check_income_in_clipboard() -> bool:
     income_text = income_text.replace(".", "")
     income_text = income_text.replace(",", ".")
     return float(income_text) > config.MIN_INCOME
+
+
+if __name__ == '__main__':
+    kill_indkomst()
+    open_indkomst("hej", "hej")
