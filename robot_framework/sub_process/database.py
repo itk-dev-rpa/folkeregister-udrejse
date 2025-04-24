@@ -22,7 +22,7 @@ class Person:
 def get_candidate_list(orchestrator_connection: OrchestratorConnection, udrejse_conn: pyodbc.Connection) -> list[Person]:
     """Create a prioritized list of candidates that should be checked for activity.
     The list is filtered to remove candidates that has been checked in the past and then sorted
-    on the amount
+    on the amount of people living on the same address.
 
     Args:
         orchestrator_connection: The connection to Orchestrator.
