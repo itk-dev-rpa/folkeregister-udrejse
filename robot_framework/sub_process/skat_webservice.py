@@ -105,7 +105,7 @@ def handle_xml(xml_result: str) -> float:
         "b4": "http://rep.oio.dk/skat.dk/eindkomst/class/angivelsefelt/xml/schemas/20071202/"
     }
 
-    sum = 0
+    total_income = 0
 
     for field_id in FIELD_IDS:
         fields = root.xpath(
@@ -114,9 +114,9 @@ def handle_xml(xml_result: str) -> float:
         )
         for f in fields:
             value_text = f.find('b4:AngivelseFeltIndholdTekst', namespaces).text
-            sum += float(value_text)
+            total_income += float(value_text)
 
-    return sum
+    return total_income
 
 
 
