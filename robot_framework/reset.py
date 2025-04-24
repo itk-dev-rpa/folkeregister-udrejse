@@ -27,7 +27,6 @@ def kill_all(orchestrator_connection: OrchestratorConnection) -> None:
     orchestrator_connection.log_trace("Killing all applications.")
 
 
-
 def open_all(orchestrator_connection: OrchestratorConnection) -> None:
     """Open all programs used by the robot."""
     orchestrator_connection.log_trace("Opening all applications.")

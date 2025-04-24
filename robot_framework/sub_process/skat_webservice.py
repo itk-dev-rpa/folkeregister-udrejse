@@ -15,10 +15,10 @@ from robot_framework import config
 
 
 FIELD_IDS = [
-    "100000000000000057", # A-indkomst, hvoraf der betales AM-bidrag 
-    "100000000000000058", # A-indkomst hvoraf der ikke betales AM-bidrag
-    "100000000000000070", # B-indkomst, hvoraf der betales AM-bidrag
-    "100000000000000071" # B-indkomst, hvoraf der ikke betales AM-bidrag
+    "100000000000000057",  # A-indkomst, hvoraf der betales AM-bidrag
+    "100000000000000058",  # A-indkomst hvoraf der ikke betales AM-bidrag
+    "100000000000000070",  # B-indkomst, hvoraf der betales AM-bidrag
+    "100000000000000071"  # B-indkomst, hvoraf der ikke betales AM-bidrag
 ]
 
 
@@ -117,7 +117,6 @@ def handle_xml(xml_result: str) -> float:
             total_income += float(value_text)
 
     return total_income
-
 
 
 def subtract_months(month: int, year: int, delta: int) -> tuple[int, int]:
