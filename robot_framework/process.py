@@ -12,7 +12,7 @@ from itk_dev_shared_components.graph import authentication as graph_authenticati
 from itk_dev_shared_components.graph import mail as graph_mail
 from itk_dev_shared_components.smtp import smtp_util
 
-from robot_framework.sub_process import indkomst, database, nova
+from robot_framework.sub_process import skat_webservice, database, nova
 from robot_framework import config
 
 
@@ -71,11 +71,13 @@ def find_cases(requested_count: int, orchestrator_connection: OrchestratorConnec
     handled_count = 0
     found_count = 0
 
+    caller_info, signer = skat_webservice.setup_webservice(orchestrator_connection)
+
     for candidate in candidates:
         if handled_count >= config.MAX_HANDLED_CASES or found_count >= requested_count:
             break
 
-        has_income = indkomst.search_indkomst(candidate.cpr)
+        has_income = skat_webservice.check_income(candidate.cpr, caller_info, signer)
 
         if not has_income:
             orchestrator_connection.log_info(f"Creating case in Nova on {candidate.cpr}")
@@ -85,8 +87,6 @@ def find_cases(requested_count: int, orchestrator_connection: OrchestratorConnec
         database.update_person(udrejse_conn, candidate, has_income)
 
         handled_count += 1
-
-        print(handled_count, found_count)
 
     return found_count, handled_count
 
