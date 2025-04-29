@@ -16,9 +16,13 @@ ERROR_EMAIL = "Error Email"
 FAELLES_SQL = "FællesSQL Udenlandske Borgere"
 NOVA_API = "Nova API"
 GRAPH_API = "Graph API"
-INDKOMST_CREDS = "KMD Udrejse"
+SKAT_WEBSERVICE = "SKAT Webservice"
+KEYVAULT_CREDENTIALS = "Keyvault"
+KEYVAULT_URI = "Keyvault URI"
+
+KEYVAULT_PATH = "Skat_webservice"
 
 # Other configs
-INCOME_DAYS = 545
+INCOME_MONTHS = 18
 MIN_INCOME = 10_000
 MAX_HANDLED_CASES = 400
