@@ -1,7 +1,7 @@
 """This module is responsible for interaction with KMD Nova."""
 
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from itk_dev_shared_components.kmd_nova import nova_cases, nova_tasks, nova_notes
 from itk_dev_shared_components.kmd_nova.authentication import NovaAccess
