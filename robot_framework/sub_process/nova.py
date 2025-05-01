@@ -3,13 +3,14 @@
 import uuid
 from datetime import datetime, timedelta
 
-from itk_dev_shared_components.kmd_nova import nova_cases, nova_tasks
+from itk_dev_shared_components.kmd_nova import nova_cases, nova_tasks, nova_notes
 from itk_dev_shared_components.kmd_nova.authentication import NovaAccess
 from itk_dev_shared_components.kmd_nova.nova_objects import NovaCase, CaseParty, Caseworker, Department, Task
 from itk_dev_shared_components.kmd_nova import cpr as nova_cpr
 
 from robot_framework import config
 from robot_framework.sub_process.database import Person
+from robot_framework.sub_process import skat_webservice
 
 
 def add_case(candidate: Person, nova_access: NovaAccess):
@@ -46,8 +47,12 @@ def add_case(candidate: Person, nova_access: NovaAccess):
 
     case_uuid = str(uuid.uuid4())
 
+    today = datetime.today()
+    end_month, end_year = skat_webservice.subtract_months(today.month, today.year, 1)
+    start_month, start_year = skat_webservice.subtract_months(today.month, today.year, config.INCOME_MONTHS)
+
     description = "\n".join([
-        f'Ingen indkomst i perioden: {(datetime.today()-timedelta(days=config.INCOME_DAYS)).strftime("%d-%m-%Y")} - {datetime.today().strftime("%d-%m-%Y")}',
+        f'Ingen indkomst i perioden: {start_month:02}/{start_year} - {end_month:02}/{end_year}',
         f"Adresse: {candidate.address}",
         f"Antal bebore på adressen: {candidate.address_count}"
     ])
@@ -77,3 +82,11 @@ def add_case(candidate: Person, nova_access: NovaAccess):
 
     nova_cases.add_case(case, nova_access)
     nova_tasks.attach_task_to_case(case.uuid, task, nova_access)
+
+    # Add journal note to case
+    note_text = "\n".join([
+        "Sagen er automatisk oprettet af Udrejserobotten, da borgeren opfyldte følgende kriterier:",
+        "Seneste indrejsedato er mere end 18 måneder siden.",
+        f"Ingen indkomst i perioden: {start_month:02}/{start_year} - {end_month:02}/{end_year}"
+    ])
+    nova_notes.add_text_note(case.uuid, note_title="Oprettet af robot", note_text=note_text, caseworker=caseworker, approved=True, nova_access=nova_access)
