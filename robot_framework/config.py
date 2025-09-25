@@ -21,6 +21,8 @@ KEYVAULT_CREDENTIALS = "Keyvault"
 KEYVAULT_URI = "Keyvault URI"
 
 KEYVAULT_PATH = "Skat_webservice"
+DATA_BUCKETS = "Data Buckets"
+EVENT_LOG = "Event Log"
 
 # Other configs
 INCOME_MONTHS = 18

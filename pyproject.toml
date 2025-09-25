@@ -18,10 +18,11 @@ classifiers = [
 dependencies = [
     "OpenOrchestrator == 1.*",
     "Pillow == 9.5.0",
-    "pyodbc == 5.1.0",
+    "pyodbc == 5.*",
     "itk-dev-shared-components == 2.*",
     "python-skat-webservice == 0.1.0",
-    "hvac == 2.*"
+    "hvac == 2.*",
+    "itk_dev_event_log == 1.*"
 ]
 
 [project.optional-dependencies]
