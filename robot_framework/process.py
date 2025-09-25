@@ -11,6 +11,7 @@ from itk_dev_shared_components.kmd_nova.authentication import NovaAccess
 from itk_dev_shared_components.graph import authentication as graph_authentication
 from itk_dev_shared_components.graph import mail as graph_mail
 from itk_dev_shared_components.smtp import smtp_util
+import itk_dev_event_log as event_log
 
 from robot_framework.sub_process import skat_webservice, database, nova
 from robot_framework import config
@@ -64,7 +65,8 @@ def find_cases(requested_count: int, orchestrator_connection: OrchestratorConnec
     nova_creds = orchestrator_connection.get_credential(config.NOVA_API)
     nova_access = NovaAccess(nova_creds.username, nova_creds.password)
 
-    udrejse_conn = pyodbc.connect("Server=SRVSQLHOTEL03;Database=MKB-ITK-RPA;Trusted_Connection=Yes;Driver={ODBC Driver 17 for SQL Server}")
+    udrejse_conn = pyodbc.connect(orchestrator_connection.get_constant(config.DATA_BUCKETS).value)
+    event_log.setup_logging(orchestrator_connection.get_constant(config.EVENT_LOG).value)
 
     candidates = database.get_candidate_list(orchestrator_connection, udrejse_conn)
 
@@ -78,9 +80,11 @@ def find_cases(requested_count: int, orchestrator_connection: OrchestratorConnec
             break
 
         has_income = skat_webservice.check_income(candidate.cpr, caller_info, signer)
+        event_log.emit(orchestrator_connection.process_name, "Indkomst tjekket")
 
         if not has_income:
             orchestrator_connection.log_info(f"Creating case in Nova on {candidate.cpr}")
+            event_log.emit(orchestrator_connection.process_name, "Sag oprettet i Nova")
             nova.add_case(candidate, nova_access)
             found_count += 1
 
