@@ -98,5 +98,5 @@ def find_cases(requested_count: int, orchestrator_connection: OrchestratorConnec
 if __name__ == '__main__':
     conn_string = os.getenv("OpenOrchestratorConnString")
     crypto_key = os.getenv("OpenOrchestratorKey")
-    oc = OrchestratorConnection("Udrejse Test", conn_string, crypto_key, '{"approved_senders": ["az68933"]}')
+    oc = OrchestratorConnection("Udrejse Test", conn_string, crypto_key, '{"approved_senders": ["az68933"]}', "", "")
     process(oc)

@@ -38,5 +38,5 @@ def migrate(orchestrator_connection):
 if __name__ == '__main__':
     conn_string = os.getenv("OpenOrchestratorConnString")
     crypto_key = os.getenv("OpenOrchestratorKey")
-    oc = OrchestratorConnection("Udrejse Migration", conn_string, crypto_key, "")
+    oc = OrchestratorConnection("Udrejse Migration", conn_string, crypto_key, "", "", "")
     migrate(oc)
