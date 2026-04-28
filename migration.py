@@ -1,10 +1,8 @@
 """This module is reponsible for migrating data from the old robot to the new one."""
 
-import os
 from hashlib import sha256
 
 import pyodbc
-from OpenOrchestrator.orchestrator_connection.connection import OrchestratorConnection
 
 
 def migrate(orchestrator_connection):
