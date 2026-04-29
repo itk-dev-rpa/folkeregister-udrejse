@@ -1,6 +1,5 @@
 """This module contains the main process of the robot."""
 
-import os
 import json
 from datetime import datetime
 import re
@@ -93,10 +92,3 @@ def find_cases(requested_count: int, orchestrator_connection: OrchestratorConnec
         handled_count += 1
 
     return found_count, handled_count
-
-
-if __name__ == '__main__':
-    conn_string = os.getenv("OpenOrchestratorConnString")
-    crypto_key = os.getenv("OpenOrchestratorKey")
-    oc = OrchestratorConnection("Udrejse Test", conn_string, crypto_key, '{"approved_senders": ["az68933"]}')
-    process(oc)

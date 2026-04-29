@@ -1,10 +1,8 @@
 """This module is reponsible for migrating data from the old robot to the new one."""
 
-import os
 from hashlib import sha256
 
 import pyodbc
-from OpenOrchestrator.orchestrator_connection.connection import OrchestratorConnection
 
 
 def migrate(orchestrator_connection):
@@ -33,10 +31,3 @@ def migrate(orchestrator_connection):
         cursor.execute("INSERT INTO [MKB-ITK-RPA].[dbo].[Udrejsekontrol] (id, check_date, manual_control) VALUES (?, ?, ?)", id_hash, record[2], None)
 
     cursor.commit()
-
-
-if __name__ == '__main__':
-    conn_string = os.getenv("OpenOrchestratorConnString")
-    crypto_key = os.getenv("OpenOrchestratorKey")
-    oc = OrchestratorConnection("Udrejse Migration", conn_string, crypto_key, "")
-    migrate(oc)
