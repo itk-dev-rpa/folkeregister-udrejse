@@ -52,7 +52,7 @@ def setup_webservice(orchestrator_connection: OrchestratorConnection) -> tuple[C
     return caller_info, signer
 
 
-def check_income(cpr: str, caller_info: CallerInfo, signer: SOAPSigner) -> bool:
+def check_income(cpr: str, caller_info: CallerInfo, signer: SOAPSigner) -> float:
     """Checks the income of the given person.
 
     Args:
@@ -61,7 +61,7 @@ def check_income(cpr: str, caller_info: CallerInfo, signer: SOAPSigner) -> bool:
         signer: The SOAPSigner object used in the webservice call.
 
     Returns:
-        True if the person has an income greater than the income threshold.
+        The total income of the person.
     """
 
     today = datetime.today()
@@ -82,7 +82,7 @@ def check_income(cpr: str, caller_info: CallerInfo, signer: SOAPSigner) -> bool:
 
     income = handle_xml(xml_result)
 
-    return income > config.MIN_INCOME
+    return income
 
 
 def handle_xml(xml_result: str) -> float:
