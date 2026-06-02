@@ -70,6 +70,32 @@ def get_candidate_list(orchestrator_connection: OrchestratorConnection, udrejse_
     return candidates
 
 
+def get_spouse(cpr: str) -> str | None:
+    """Get the spouse of the given person.
+    Only returns the spouse if the two share an address.
+
+    Args:
+        cpr: The CPR of the person whose spouse to find.
+
+    Returns:
+        The CPR number of the co-living spouse if any.
+    """
+    adresse_conn = pyodbc.connect("Server=FaellesSQL;Database=DWH;Trusted_Connection=Yes;Driver={ODBC Driver 17 for SQL Server}")
+    spouse = adresse_conn.execute(
+        """SELECT
+            s.CPR
+        FROM [AdresseAktuel] as p
+        LEFT JOIN [AdresseAktuel] as s
+            ON p.AegtefaelleCPR = s.CPR
+            AND p.Adressenoegle = s.Adressenoegle
+        WHERE p.CPR = ?
+        """,
+        cpr
+    ).fetchone()
+
+    return spouse[0]
+
+
 def _create_id(cpr: str, first_name: str) -> str:
     """Create a hashed id for a person by using their cpr and first name.
 
