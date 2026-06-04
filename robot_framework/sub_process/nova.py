@@ -52,7 +52,7 @@ def add_case(candidate: Person, nova_access: NovaAccess):
     start_month, start_year = skat_webservice.subtract_months(today.month, today.year, config.INCOME_MONTHS)
 
     description = "\n".join([
-        f'Ingen indkomst i perioden: {start_month:02}/{start_year} - {end_month:02}/{end_year}',
+        f"Ingen indkomst i perioden: {start_month:02}/{start_year} - {end_month:02}/{end_year}",
         f"Adresse: {candidate.address}",
         f"Antal bebore på adressen: {candidate.address_count}"
     ])

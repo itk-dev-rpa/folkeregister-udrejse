@@ -78,7 +78,13 @@ def find_cases(requested_count: int, orchestrator_connection: OrchestratorConnec
         if handled_count >= config.MAX_HANDLED_CASES or found_count >= requested_count:
             break
 
-        has_income = skat_webservice.check_income(candidate.cpr, caller_info, signer)
+        spouse_cpr = database.get_spouse(candidate.cpr)
+
+        candidate_income = skat_webservice.check_income(candidate.cpr, caller_info, signer)
+        spouse_income = skat_webservice.check_income(spouse_cpr, caller_info, signer) if spouse_cpr else 0
+
+        has_income = candidate_income >= config.MIN_INCOME or spouse_income >= config.MIN_SPOUSE_INCOME
+
         event_log.emit(orchestrator_connection.process_name, "Indkomst tjekket")
 
         if not has_income:
