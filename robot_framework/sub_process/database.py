@@ -96,6 +96,32 @@ def get_spouse(cpr: str) -> str | None:
     return spouse[0]
 
 
+def is_living_with_parents(cpr: str) -> bool:
+    """Check if the given person is younger than 20 and living with either parent.
+
+    Args:
+        cpr: The CPR of the person to check.
+
+    Returns:
+        True if the person is younger than 20 and shares an address with a parent.
+    """
+    adresse_conn = pyodbc.connect("Server=FaellesSQL;Database=DWH;Trusted_Connection=Yes;Driver={ODBC Driver 17 for SQL Server}")
+    parent = adresse_conn.execute(
+        """SELECT
+            parent.CPR
+        FROM [AdresseAktuel] as p
+        JOIN [AdresseAktuel] as parent
+            ON parent.CPR IN (p.MorCPR, p.FarCPR)
+            AND p.Adressenoegle = parent.Adressenoegle
+        WHERE p.CPR = ?
+            AND p.Alder < 20
+        """,
+        cpr
+    ).fetchone()
+
+    return parent is not None
+
+
 def _create_id(cpr: str, first_name: str) -> str:
     """Create a hashed id for a person by using their cpr and first name.
 
@@ -120,3 +146,6 @@ def update_person(connection: pyodbc.Connection, candidate: Person, has_income: 
     id_hash = _create_id(candidate.cpr, candidate.name)
     cursor = connection.execute("INSERT INTO [MKB-ITK-RPA].dbo.Udrejsekontrol (id, check_date, manual_control) VALUES (?, CURRENT_TIMESTAMP, ?)", id_hash, not has_income)
     cursor.commit()
+
+
+print(is_living_with_parents("0101075060"))

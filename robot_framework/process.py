@@ -78,6 +78,11 @@ def find_cases(requested_count: int, orchestrator_connection: OrchestratorConnec
         if handled_count >= config.MAX_HANDLED_CASES or found_count >= requested_count:
             break
 
+        if database.is_living_with_parents(candidate.cpr):
+            database.update_person(udrejse_conn, candidate, has_income=True)
+            handled_count += 1
+            continue
+
         spouse_cpr = database.get_spouse(candidate.cpr)
 
         candidate_income = skat_webservice.check_income(candidate.cpr, caller_info, signer)
