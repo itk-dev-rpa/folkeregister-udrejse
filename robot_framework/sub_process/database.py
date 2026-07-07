@@ -146,6 +146,3 @@ def update_person(connection: pyodbc.Connection, candidate: Person, has_income: 
     id_hash = _create_id(candidate.cpr, candidate.name)
     cursor = connection.execute("INSERT INTO [MKB-ITK-RPA].dbo.Udrejsekontrol (id, check_date, manual_control) VALUES (?, CURRENT_TIMESTAMP, ?)", id_hash, not has_income)
     cursor.commit()
-
-
-print(is_living_with_parents("0101075060"))
